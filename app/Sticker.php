@@ -17,7 +17,7 @@ class Sticker extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'pack_id', 'name', 'description', 'shared_code', 'views', 'likes', 'size'
+        'user_id', 'category_id', 'pack_id', 'name', 'shared_code', 'views', 'likes', 'size'
     ];
 
     /**
@@ -28,11 +28,11 @@ class Sticker extends Model
     protected $hidden = ['deleted_at'];
 
     /**
-     * Get the user associated with the sticker.
+     * Get the user that owns the sticker.
      */
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -44,18 +44,20 @@ class Sticker extends Model
     }
 
     /**
-     * The categories that belong to the sticker.
+     * The category that belong to the sticker.
      */
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->belongsTo('App\Category');
     }
 
     /**
-     * The tags that belong to the sticker.
+     * Get all of the tags for the post.
      */
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany('App\Tag')
+            ->orderBy('popularity', 'desc')
+            ->orderBy('name', 'asc');
     }
 }

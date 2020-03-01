@@ -17,8 +17,8 @@ class CreateStickerTagTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('sticker_id');
             $table->unsignedInteger('tag_id');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('sticker_id')->references('id')->on('stickers');
             $table->foreign('tag_id')->references('id')->on('tags');

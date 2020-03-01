@@ -22,8 +22,8 @@ class CreatePacksTable extends Migration
             $table->integer('views')->default(0);
             $table->integer('likes')->default(0);
             $table->string('size', 20);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
         });

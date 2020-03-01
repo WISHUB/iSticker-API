@@ -16,7 +16,15 @@ class Category extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = ['categorizable_id', 'categorizable_type', 'created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * Get all of the owning categorizable models.
+     */
+    public function categorizable()
+    {
+        return $this->morphTo();
+    }
 
     /**
      * The stickers that belong to the category.
@@ -26,11 +34,4 @@ class Category extends Model
         return $this->belongsToMany('App\Sticker');
     }
 
-    /**
-     * The packs that belong to the category.
-     */
-    public function packs()
-    {
-        return $this->belongsToMany('App\Pack');
-    }
 }

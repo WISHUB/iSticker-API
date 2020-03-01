@@ -16,7 +16,15 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $hidden = ['deleted_at'];
+    protected $hidden = ['taggable_id', 'taggable_type', 'created_at', 'updated_at', 'deleted_at', 'pivot'];
+
+    /**
+     * Get all of the owning taggable models.
+     */
+    public function taggable()
+    {
+        return $this->morphTo();
+    }
 
     /**
      * The stickers that belong to the category.
@@ -24,13 +32,5 @@ class Tag extends Model
     public function stickers()
     {
         return $this->belongsToMany('App\Sticker');
-    }
-
-    /**
-     * The packs that belong to the category.
-     */
-    public function packs()
-    {
-        return $this->belongsToMany('App\Pack');
     }
 }

@@ -28,11 +28,11 @@ class Pack extends Model
     protected $hidden = ['deleted_at'];
 
     /**
-     * Get the user associated with the pack.
+     * Get the user that owns the pack.
      */
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -40,22 +40,29 @@ class Pack extends Model
      */
     public function stickers()
     {
-        return $this->hasMany('App\Sticker');
+        return $this->hasMany('App\Sticker')
+            ->orderBy('views', 'desc')
+            ->orderBy('likes', 'desc')
+            ->orderBy('name', 'asc');
     }
 
     /**
-     * The categories that belong to the pack.
+     * Get all of the categories for the post.
      */
     public function categories()
     {
-        return $this->belongsToMany('App\Category');
+        return $this->morphMany('App\Category', 'categorizable')
+            ->orderBy('popularity', 'desc')
+            ->orderBy('name', 'asc');
     }
 
     /**
-     * The tags that belong to the pack.
+     * Get all of the tags for the post.
      */
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->morphMany('App\Tag', 'taggable')
+            ->orderBy('popularity', 'desc')
+            ->orderBy('name', 'asc');
     }
 }

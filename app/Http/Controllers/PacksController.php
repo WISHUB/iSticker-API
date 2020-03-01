@@ -17,7 +17,13 @@ class PacksController extends Controller
      */
     public function index()
     {
-        $packs = Pack::all();
+        $packs = Pack::with(['user', 'stickers', 'categories', 'tags'])
+            ->orderBy('views', 'desc')
+            ->orderBy('likes', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('name', 'desc')
+            ->get();
+
         return PackResource::collection($packs);
     }
 
@@ -51,7 +57,7 @@ class PacksController extends Controller
      */
     public function show($id)
     {
-        $pack = Pack::findOrFail($id);
+        $pack = Pack::with(['user', 'stickers', 'categories', 'tags'])->findOrFail($id);
         return new PackResource($pack);
     }
 

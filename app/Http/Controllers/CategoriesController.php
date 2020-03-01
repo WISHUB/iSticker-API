@@ -16,7 +16,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::select('name', 'popularity')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return CategoryResource::collection($categories);
     }
 
@@ -45,7 +48,7 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::select('name', 'popularity')->findOrFail($id);
         return new CategoryResource($category);
     }
 

@@ -16,17 +16,18 @@ class CreateStickersTable extends Migration
         Schema::create('stickers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('pack_id')->nullable();
             $table->string('name', 50);
-            $table->text('description')->nullable();
             $table->string('shared_code', 10);
             $table->integer('views')->default(0);
             $table->integer('likes')->default(0);
             $table->string('size', 20);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('pack_id')->references('id')->on('packs');
         });
     }

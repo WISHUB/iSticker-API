@@ -15,10 +15,12 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 50);
+            $table->integer('taggable_id');
+            $table->string("taggable_type");
+            $table->string('name', 50)->unique();
             $table->integer('popularity')->default(0);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

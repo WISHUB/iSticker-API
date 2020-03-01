@@ -63,3 +63,12 @@ Route::prefix('tags')->group(function () {
     Route::put('{pack}', ['uses' => 'TagsController@update']);
     Route::delete('{pack}', ['uses' => 'TagsController@destroy']);
 });
+
+/**
+ * Search
+ */
+Route::prefix('search')->group(function () {
+    Route::get('/', ['uses' => 'SearchController@search']);
+    Route::get('/tags', ['uses' => 'SearchController@searchByTags']);
+    Route::get('/category', ['uses' => 'SearchController@searchByCategory']);
+});

@@ -16,7 +16,13 @@ class StickersController extends Controller
      */
     public function index()
     {
-        $stickers = Sticker::all();
+        $stickers = Sticker::with(['user', 'pack', 'tags', 'category'])
+            ->orderBy('views', 'desc')
+            ->orderBy('likes', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('name', 'desc')
+            ->get();
+
         return StickerResource::collection($stickers);
     }
 
@@ -30,9 +36,9 @@ class StickersController extends Controller
     {
         Validator::make($request->all(), [
             'user_id' => 'required|integer',
+            'category_id' => 'integer|nullable',
             'pack_id' => 'integer|nullable',
             'name' => 'required|string|max:50',
-            'description' => 'string|nullable',
             'shared_code' => 'required|string|max:10',
             'views' => 'required|integer',
             'likes' => 'required|integer',
@@ -51,7 +57,7 @@ class StickersController extends Controller
      */
     public function show($id)
     {
-        $sticker = Sticker::findOrFail($id);
+        $sticker = Sticker::with(['user', 'pack', 'tags', 'category'])->findOrFail($id);
         return new StickerResource($sticker);
     }
 
@@ -66,9 +72,9 @@ class StickersController extends Controller
     {
         Validator::make($request->all(), [
             'user_id' => 'required|integer',
+            'category_id' => 'integer|nullable',
             'pack_id' => 'integer|nullable',
             'name' => 'required|string|max:50',
-            'description' => 'string|nullable',
             'shared_code' => 'required|string|max:10',
             'views' => 'required|integer',
             'likes' => 'required|integer',

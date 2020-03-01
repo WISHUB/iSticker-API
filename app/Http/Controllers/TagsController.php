@@ -16,7 +16,10 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::select('name', 'popularity')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return TagResource::collection($tags);
     }
 
@@ -45,7 +48,7 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        $tag = Tag::findOrFail($id);
+        $tag = Tag::select('name', 'popularity')->findOrFail($id);
         return new TagResource($tag);
     }
 
